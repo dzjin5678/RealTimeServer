@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../static/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="../static/css/jquery-ui-1.10.3.full.min.css"/>
+    <link rel="stylesheet" href="../static/css/datepicker.css" />
+    <link rel="stylesheet" href="../static/css/googleFamily.css"/>
+    <link rel="stylesheet" href="../static/css/ui.jqgrid.css"/>
+    <link rel="stylesheet" href="../static/css/chosen.css" />
+    <link rel="stylesheet" href="../static/css/custom.css" />
+    <link rel="stylesheet" href="../static/css/ace.min.css" />
+    <link rel="stylesheet" href="../static/css/ace-rtl.min.css" />
+    <link rel="stylesheet" href="../static/css/ace-skins.min.css" />
+
+    <script src="../static/js/jquery-2.0.3.min.js"></script>
+   
+    
+    <title>实时监控</title>
+    
+    <style type = "text/css">
+    
+		table{
+			width:100%;
+			height:560px;
+		}
+
+	</style>
+    
+</head>
+<body>
+
+	<label style="font-size:30px;text-align:center">&nbsp;&nbsp;&nbsp;实时监控&nbsp;&nbsp;&nbsp;</label>
+	<!-- 显示当前时间 -->
+	<label id="time"></label>
+	
+	<script>
+	
+		var flag=1;
+	    function mytime(){
+	        var a = new Date();
+	        var b = a.toLocaleTimeString();
+	        var c = a.toLocaleDateString();
+	        document.getElementById("time").innerHTML = c+"&nbsp"+b;
+	        
+	    }
+	    //每一秒钟更新一次当前的时间
+	    setInterval(function() { mytime(); },500);
+	    //每十秒钟重载一次界面
+	    setInterval(function() { location.reload(); },30*60*1000);
+	    //打开单项工序管理界面
+	    function call(id){
+	    	window.parent.document.getElementById("clickedProcess").value=id;
+	    	window.parent.document.getElementById("process").click();
+	 	}
+	    
+	    //请求状态信息
+        $.ajax({
+            url:"../contract/searchUrgency",
+            cache: false,
+            type:"post",
+            data:{},
+            beforeSend : function(){},
+            success:function(result){
+            	
+            	//接单
+                var message1=result.message1;
+                switch(message1){
+               		case "正常":
+               			break;
+               		case "紧急":
+        		        $("#1").removeClass('btn btn-success btn-large radius');
+        		        $("#1").addClass('btn btn-warning btn-large radius');
+               			break;
+               			
+               		case "加急":
+        		        $("#1").removeClass('btn btn-success btn-large radius');
+        		        $("#1").addClass('btn btn-danger btn-large radius');
+               			break;
+               		case "特急":
+        		        $("#1").removeClass('btn btn-success btn-large radius');
+        		        $("#1").addClass('btn btn-inverse btn-large radius');
+               			break;
+               		default:
+               			break;
+                
+                }
+                //拆单
+                var message2=result.message2;
+                switch(message2){
+               		case "正常":
+               			break;
+               		case "紧急":
+        		        $("#2").removeClass('btn btn-success btn-large radius');
+        		        $("#2").addClass('btn btn-warning btn-large radius');
+               			break;
+               			
+               		case "加急":
+        		        $("#2").removeClass('btn btn-success btn-large radius');
+        		        $("#2").addClass('btn btn-danger btn-large radius');
+               			break;
+               		case "特急":
+        		        $("#2").removeClass('btn btn-success btn-large radius');
+        		        $("#2").addClass('btn btn-inverse btn-large radius');
+               			break;
+               		default:
+               			break;
+                
+                }
+                //报价
+                var message3=result.message3;
+                switch(message3){
+               		case "正常":
+               			break;
+               		case "紧急":
+        		        $("#3").removeClass('btn btn-success btn-large radius');
+        		        $("#3").addClass('btn btn-warning btn-large radius');
+               			break;
+               			
+               		case "加急":
+        		        $("#3").removeClass('btn btn-success btn-large radius');
+        		        $("#3").addClass('btn btn-danger btn-large radius');
+               			break;
+               		case "特急":
+        		        $("#3").removeClass('btn btn-success btn-large radius');
+        		        $("#3").addClass('btn btn-inverse btn-large radius');
+               			break;
+               		default:
+               			break;
+                
+                }
+                //开料
+                var message4=result.message4;
+                switch(message4){
+               		case "正常":
+               			break;
+               		case "紧急":
+        		        $("#4").removeClass('btn btn-success btn-large radius');
+        		        $("#4").addClass('btn btn-warning btn-large radius');
+               			break;
+               			
+               		case "加急":
+        		        $("#4").removeClass('btn btn-success btn-large radius');
+        		        $("#4").addClass('btn btn-danger btn-large radius');
+               			break;
+               		case "特急":
+        		        $("#4").removeClass('btn btn-success btn-large radius');
+        		        $("#4").addClass('btn btn-inverse btn-large radius');
+               			break;
+               		default:
+               			break;
+                
+                }
+                //木作
+                var message5=result.message5;
+                switch(message5){
+               		case "正常":
+               			break;
+               		case "紧急":
+        		        $("#5").removeClass('btn btn-success btn-large radius');
+        		        $("#5").addClass('btn btn-warning btn-large radius');
+               			break;
+               			
+               		case "加急":
+        		        $("#5").removeClass('btn btn-success btn-large radius');
+        		        $("#5").addClass('btn btn-danger btn-large radius');
+               			break;
+               		case "特急":
+        		        $("#5").removeClass('btn btn-success btn-large radius');
+        		        $("#5").addClass('btn btn-inverse btn-large radius');
+               			break;
+               		default:
+               			break;
+                
+                }
+                //贴皮
+                var message6=result.message6;
+                switch(message6){
+               		case "正常":
+               			break;
+               		case "紧急":
+        		        $("#6").removeClass('btn btn-success btn-large radius');
+        		        $("#6").addClass('btn btn-warning btn-large radius');
+               			break;
+               			
+               		case "加急":
+        		        $("#6").removeClass('btn btn-success btn-large radius');
+        		        $("#6").addClass('btn btn-danger btn-large radius');
+               			break;
+               		case "特急":
+        		        $("#6").removeClass('btn btn-success btn-large radius');
+        		        $("#6").addClass('btn btn-inverse btn-large radius');
+               			break;
+               		default:
+               			break;
+                
+                }
+                //白磨
+                var message7=result.message7;
+                switch(message7){
+               		case "正常":
+               			break;
+               		case "紧急":
+        		        $("#7").removeClass('btn btn-success btn-large radius');
+        		        $("#7").addClass('btn btn-warning btn-large radius');
+               			break;
+               			
+               		case "加急":
+        		        $("#7").removeClass('btn btn-success btn-large radius');
+        		        $("#7").addClass('btn btn-danger btn-large radius');
+               			break;
+               		case "特急":
+        		        $("#7").removeClass('btn btn-success btn-large radius');
+        		        $("#7").addClass('btn btn-inverse btn-large radius');
+               			break;
+               		default:
+               			break;
+                
+                }
+                //组装
+                var message8=result.message8;
+                switch(message8){
+               		case "正常":
+               			break;
+               		case "紧急":
+        		        $("#8").removeClass('btn btn-success btn-large radius');
+        		        $("#8").addClass('btn btn-warning btn-large radius');
+               			break;
+               			
+               		case "加急":
+        		        $("#8").removeClass('btn btn-success btn-large radius');
+        		        $("#8").addClass('btn btn-danger btn-large radius');
+               			break;
+               		case "特急":
+        		        $("#8").removeClass('btn btn-success btn-large radius');
+        		        $("#8").addClass('btn btn-inverse btn-large radius');
+               			break;
+               		default:
+               			break;
+                
+                }
+                //排孔
+                var message9=result.message9;
+                switch(message9){
+               		case "正常":
+               			break;
+               		case "紧急":
+        		        $("#9").removeClass('btn btn-success btn-large radius');
+        		        $("#9").addClass('btn btn-warning btn-large radius');
+               			break;
+               			
+               		case "加急":
+        		        $("#9").removeClass('btn btn-success btn-large radius');
+        		        $("#9").addClass('btn btn-danger btn-large radius');
+               			break;
+               		case "特急":
+        		        $("#9").removeClass('btn btn-success btn-large radius');
+        		        $("#9").addClass('btn btn-inverse btn-large radius');
+               			break;
+               		default:
+               			break;
+                
+                }
+                //底漆
+                var message10=result.message10;
+                switch(message10){
+               		case "正常":
+               			break;
+               		case "紧急":
+        		        $("#10").removeClass('btn btn-success btn-large radius');
+        		        $("#10").addClass('btn btn-warning btn-large radius');
+               			break;
+               			
+               		case "加急":
+        		        $("#10").removeClass('btn btn-success btn-large radius');
+        		        $("#10").addClass('btn btn-danger btn-large radius');
+               			break;
+               		case "特急":
+        		        $("#10").removeClass('btn btn-success btn-large radius');
+        		        $("#10").addClass('btn btn-inverse btn-large radius');
+               			break;
+               		default:
+               			break;
+                
+                }
+                //油磨
+                var message11=result.message11;
+                switch(message11){
+               		case "正常":
+               			break;
+               		case "紧急":
+        		        $("#11").removeClass('btn btn-success btn-large radius');
+        		        $("#11").addClass('btn btn-warning btn-large radius');
+               			break;
+               			
+               		case "加急":
+        		        $("#11").removeClass('btn btn-success btn-large radius');
+        		        $("#11").addClass('btn btn-danger btn-large radius');
+               			break;
+               		case "特急":
+        		        $("#11").removeClass('btn btn-success btn-large radius');
+        		        $("#11").addClass('btn btn-inverse btn-large radius');
+               			break;
+               		default:
+               			break;
+                
+                }
+                //修色
+                var message12=result.message12;
+                switch(message12){
+               		case "正常":
+               			break;
+               		case "紧急":
+        		        $("#12").removeClass('btn btn-success btn-large radius');
+        		        $("#12").addClass('btn btn-warning btn-large radius');
+               			break;
+               			
+               		case "加急":
+        		        $("#12").removeClass('btn btn-success btn-large radius');
+        		        $("#12").addClass('btn btn-danger btn-large radius');
+               			break;
+               		case "特急":
+        		        $("#12").removeClass('btn btn-success btn-large radius');
+        		        $("#12").addClass('btn btn-inverse btn-large radius');
+               			break;
+               		default:
+               			break;
+                
+                }
+                //擦色
+                var message13=result.message13;
+                switch(message13){
+               		case "正常":
+               			break;
+               		case "紧急":
+        		        $("#13").removeClass('btn btn-success btn-large radius');
+        		        $("#13").addClass('btn btn-warning btn-large radius');
+               			break;
+               			
+               		case "加急":
+        		        $("#13").removeClass('btn btn-success btn-large radius');
+        		        $("#13").addClass('btn btn-danger btn-large radius');
+               			break;
+               		case "特急":
+        		        $("#13").removeClass('btn btn-success btn-large radius');
+        		        $("#13").addClass('btn btn-inverse btn-large radius');
+               			break;
+               		default:
+               			break;
+                
+                }
+                //描绘
+                var message14=result.message14;
+                switch(message14){
+               		case "正常":
+               			break;
+               		case "紧急":
+        		        $("#14").removeClass('btn btn-success btn-large radius');
+        		        $("#14").addClass('btn btn-warning btn-large radius');
+               			break;
+               			
+               		case "加急":
+        		        $("#14").removeClass('btn btn-success btn-large radius');
+        		        $("#14").addClass('btn btn-danger btn-large radius');
+               			break;
+               		case "特急":
+        		        $("#14").removeClass('btn btn-success btn-large radius');
+        		        $("#14").addClass('btn btn-inverse btn-large radius');
+               			break;
+               		default:
+               			break;
+                
+                }
+                //面漆
+                var message15=result.message15;
+                switch(message15){
+               		case "正常":
+               			break;
+               		case "紧急":
+        		        $("#15").removeClass('btn btn-success btn-large radius');
+        		        $("#15").addClass('btn btn-warning btn-large radius');
+               			break;
+               			
+               		case "加急":
+        		        $("#15").removeClass('btn btn-success btn-large radius');
+        		        $("#15").addClass('btn btn-danger btn-large radius');
+               			break;
+               		case "特急":
+        		        $("#15").removeClass('btn btn-success btn-large radius');
+        		        $("#15").addClass('btn btn-inverse btn-large radius');
+               			break;
+               		default:
+               			break;
+                
+                }
+                //包装
+                var message16=result.message16;
+                switch(message16){
+               		case "正常":
+               			break;
+               		case "紧急":
+        		        $("#16").removeClass('btn btn-success btn-large radius');
+        		        $("#16").addClass('btn btn-warning btn-large radius');
+               			break;
+               			
+               		case "加急":
+        		        $("#16").removeClass('btn btn-success btn-large radius');
+        		        $("#16").addClass('btn btn-danger btn-large radius');
+               			break;
+               		case "特急":
+        		        $("#16").removeClass('btn btn-success btn-large radius');
+        		        $("#16").addClass('btn btn-inverse btn-large radius');
+               			break;
+               		default:
+               			break;
+                
+                }
+                
+            },error:function(){},
+            complete : function(){}
+        });
+	    
+	    
+	</script>
+	
+	<table>
+
+		<tr>
+			<td>
+				<button id="1" onclick="call('接单')" class="btn btn-success btn-large radius"  style="width:100px;height:60px;">接单</button>
+				<img src="../jiantou.png" />
+	        </td>
+			<td>
+				<button id="3" onclick="call('报价')" class="btn btn-success btn-large radius"  style="width:100px;height:60px;">报价</button>
+				<img src="../jiantou.png" />
+	        </td>
+	        <td>
+				<button id="2" onclick="call('拆单')" class="btn btn-success btn-large radius"  style="width:100px;height:60px;">拆单</button>
+				<img src="../jiantou.png" />
+	        </td>
+	        <td>
+				<button onclick="call('派单')" class="btn btn-success btn-large radius"  style="width:100px;height:60px;">派单</button>
+				<img src="../jiantou.png" />
+	        </td>
+	        <td>
+				<button id="4" onclick="call('开料')" class="btn btn-success btn-large radius"  style="width:100px;height:60px;">开料</button>
+				<img src="../jiantou.png" />
+	        </td>
+	        <td>
+				<button id="5" onclick="call('木作')" class="btn btn-success btn-large radius"  style="width:100px;height:60px;">木作</button>
+				<img src="../jiantou.png" />
+	        </td>
+	        <td>
+				<button id="9" onclick="call('排孔')" class="btn btn-success btn-large radius"  style="width:100px;height:60px;">排孔</button>
+	        	<img src="../jiantou.png" />
+	        </td>
+
+		</tr>
+		<tr>
+			<td>
+				<button style="width:100px;height:60px;display:none;"></button>
+	        </td>
+			<td>
+				<button style="width:100px;height:60px;display:none;"></button>
+	        </td>
+	        <td>
+				<button style="width:100px;height:60px;display:none;"></button>
+	        </td>
+	        <td>
+				<button style="width:100px;height:60px;display:none;"></button>
+	        </td>
+	        <td>
+				<button style="width:100px;height:60px;display:none;"></button>
+	        </td>
+	        <td>
+				<button id="6" onclick="call('贴皮')" class="btn btn-success btn-large radius"  style="width:100px;height:60px;">贴皮</button>
+				<img src="../jiantou.png" />
+	        </td>
+	        <td>
+				<button id="8" onclick="call('组装')" class="btn btn-success btn-large radius"  style="width:100px;height:60px;">组装</button>
+	        	<img src="../jiantou.png" />
+	        </td>
+
+		</tr>
+		
+		<tr>
+			<td>
+				<button id="7" onclick="call('白磨')" class="btn btn-success btn-large radius"  style="width:100px;height:60px;">白磨</button>
+				<img src="../jiantou.png" />
+	        </td>
+			<td>
+				<button id="10" onclick="call('底漆')" class="btn btn-success btn-large radius"  style="width:100px;height:60px;">底漆</button>
+				<img src="../jiantou.png" />
+	        </td>
+	        <td>
+				<button id="12" onclick="call('修色')" class="btn btn-success btn-large radius"  style="width:100px;height:60px;">修色</button>
+				<img src="../jiantou.png" />
+	        </td>
+	        <td>
+				<button id="15" onclick="call('面漆')" class="btn btn-success btn-large radius"  style="width:100px;height:60px;">面漆</button>
+				<img src="../jiantou.png" />
+	        </td>
+	        <td>
+				<button id="16" onclick="call('包装')" class="btn btn-success btn-large radius"  style="width:100px;height:60px;">包装</button>
+				<img src="../jiantou.png" />
+	        </td>
+	        <td>
+				<button onclick="call('装车')" class="btn btn-success btn-large radius"  style="width:100px;height:60px;">装车</button>
+				<img src="../jiantou.png" />
+	        </td>
+	        <td>
+				<button onclick="call('出货')" class="btn btn-success btn-large radius"  style="width:100px;height:60px;">出货</button>
+	        </td>
+
+		</tr>
+		
+		<tr>
+			<td>
+				<button style="width:100px;height:60px;display:none;"></button>
+	        </td>
+			<td>
+				<button id="11" onclick="call('油磨')" class="btn btn-success btn-large radius"  style="width:100px;height:60px;">油磨</button>
+				<img src="../jiantou.png" />
+	        </td>
+	        <td>
+				<button id="13" onclick="call('擦色')" class="btn btn-success btn-large radius"  style="width:100px;height:60px;">擦色</button>
+				<img src="../jiantou.png" />
+	        </td>
+	        <td>
+				<button id="14" onclick="call('描绘')" class="btn btn-success btn-large radius"  style="width:100px;height:60px;">描绘</button>
+	        </td>
+	        <td>
+				<button style="width:100px;height:60px;display:none;"></button>
+	        </td>
+	        <td>
+				<button style="width:100px;height:60px;display:none;"></button>
+	        </td>
+	        <td>
+				<button style="width:100px;height:60px;display:none;"></button>
+	        </td>
+
+		</tr>
+		
+	</table>
+	
+	<script src="../static/js/ace-extra.min.js"></script>
+	<script src="../static/js/bootstrap.min.js"></script>
+	<script src="../static/js/jquery-ui-1.10.3.custom.min.js"></script>
+	<script src="../static/js/jquery.slimscroll.min.js" ></script>
+	<script src="../static/js/chosen.jquery.min.js"></script>
+	<script src="../static/js/ace-elements.min.js"></script>
+	<script src="../static/js/ace.min.js"></script>
+	<script src="../static/js/md5.js"></script>
+	<script src="../static/js/custom.js"></script>
+	<script src="../static/js/jquery.messager.js"></script>  
+</body>
+</html>

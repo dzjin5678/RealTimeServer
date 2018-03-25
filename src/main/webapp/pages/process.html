@@ -1,0 +1,149 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../static/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="../static/css/jquery-ui-1.10.3.full.min.css"/>
+    <link rel="stylesheet" href="../static/css/datepicker.css" />
+    <link rel="stylesheet" href="../static/css/googleFamily.css"/>
+    <link rel="stylesheet" href="../static/css/ui.jqgrid.css"/>
+    <link rel="stylesheet" href="../static/css/chosen.css" />
+    <link rel="stylesheet" href="../static/css/custom.css" />
+    <link rel="stylesheet" href="../static/css/ace.min.css" />
+    <link rel="stylesheet" href="../static/css/ace-rtl.min.css" />
+    <link rel="stylesheet" href="../static/css/ace-skins.min.css" />
+
+    <script src="../static/js/jquery-2.0.3.min.js"></script>
+
+    <title>单项工序管理</title>
+</head>
+<body >
+	<div class="row">
+	    <div class="col-xs-12">
+	        <div class="widget-box">
+	            <div class="widget-header widget-header-small">
+	                <h4>单项工序管理</h4>
+	            </div>
+	            <div class="widget-body">
+	                <div class="widget-body-inner" style="display: block;">
+	                    <div class="widget-main">
+	                        <div>
+	                            <div class="row">
+	                            	<!-- 查询条件 -->
+	                                <div class="col-xs-12">
+	                                    <div class="panel panel-default" style="margin-bottom:10px;">
+	                                        <div class="panel-body">
+	                                            <form class="form-horizontal" role="form" onsubmit="return false;">
+	
+	                                                <div class="form-group" style="margin-bottom: 0;">
+	                                                    <label class="col-sm-1 control-label">工序名称：</label>
+	                                                    <div class="col-sm-3" style="width: 200px;">
+	                                                    	<select id="select" class="form-control radius">
+	                                                    		<option>接单</option>
+	                                                    		<option>拆单</option>
+	                                                    		<option>报价</option>
+	                                                    		<option>派单</option>
+	                                                    		<option>开料</option>
+	                                                    		<option>木作</option>
+	                                                    		<option>贴皮</option>
+	                                                    		<option>白磨</option>
+	                                                    		<option>组装</option>
+	                                                    		<option>排孔</option>
+	                                                    		<option>底漆</option>
+	                                                    		<option>油磨</option>
+	                                                    		<option>修色</option>
+	                                                    		<option>擦色</option>
+	                                                    		<option>描绘</option>
+	                                                    		<option>面漆</option>
+	                                                    		<option>包装</option>
+	                                                    		<option>装车</option>
+	                                                    		<option>出货</option>
+	                                                    	</select>
+	                                                    </div>
+	                                                    
+	                                                   	<label class="col-sm-1 control-label">起始时间：</label>
+	                                                    <div class="col-sm-3" style="width: 200px;">
+	                                                        <input id="beginDate" type="date" data-original-title="Tooltip for name" class="form-control radius" placeholder="" />
+	                                                    </div>
+	                                                    
+	                                                    <label class="col-sm-1 control-label">终止时间：</label>
+	                                                    <div class="col-sm-3" style="width: 200px;">
+	                                                        <input id="endDate" type="date" data-original-title="Tooltip for name" class="form-control radius" placeholder="" />
+	                                                    </div>
+	
+	                                                    <div class="col-sm-1">
+	                                                        <button id="queryBtn" class="btn btn-info btn-sm btn-label-left radius">
+	                                                            <i class="fa fa-search"></i>查询
+	                                                        </button>
+	                                                    </div>
+	                                                </div>
+	                                            </form>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                                
+	                                <!-- 操作 -->
+	                                <div class="col-xs-12">
+	                                    
+	                                    <!-- 查询 -->
+	                                    <table id="jqGrid"></table>
+	                                    <!-- 分页 -->
+	                                    <div id="jqGridPager"></div>
+	                                    
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	
+	<script src="../static/js/ace-extra.min.js" ></script>
+	<script src="../static/js/jqGrid/jquery.jqGrid.min.js" ></script>
+	<script src="../static/js/jqGrid/i18n/grid.locale-en.js" ></script>
+	<script src="../static/js/bootstrap.min.js" ></script>
+	<script src="../static/js/jquery-ui-1.10.3.custom.min.js" ></script>
+	<script src="../static/js/jquery.slimscroll.min.js" ></script>
+	<script src="../static/js/chosen.jquery.min.js" ></script>
+	<script src="../static/js/ace-elements.min.js" ></script>
+	<script src="../static/js/ace.min.js" ></script>
+	<script src="../static/js/md5.js" ></script>
+	<script src="../static/js/custom.js" ></script>
+	<script src="../static/js/jquery.messager.js" ></script>
+	<script src="../static/js/layer/layer.js" ></script>
+	<script src="../static/js/bootbox.min.js" ></script>
+	
+	<script src="../js/process.js"></script>
+	
+	<script type="text/javascript">
+	    
+		var now = new Date();
+		var day = ("0" + now.getDate()).slice(-2);
+		var month = ("0" + (now.getMonth() + 1)).slice(-2);
+		var today = now.getFullYear()+"-"+(month)+"-"+(day) ;
+		var begin = now.getFullYear()+"-"+(month)+"-01";
+		$('#endDate').val(today);
+		$('#beginDate').val(begin);
+		
+		var val = window.parent.document.getElementById("clickedProcess").value;
+		
+		
+        var station=val;
+    	for(var i=0;i<document.getElementById("select").options.length;i++){
+        	if(station==document.getElementById("select").options[i].value){
+        		document.getElementById("select").options[i].selected = true;
+	        	break;
+        	}
+    	}
+    	
+    	document.getElementById("queryBtn").click();
+		
+	  
+	</script>
+
+</body>
+</html>
